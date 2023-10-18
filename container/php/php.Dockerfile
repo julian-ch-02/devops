@@ -1,4 +1,4 @@
-FROM php:7.1.33-fpm-buster
+FROM php:7.4.33-fpm-buster
 
 RUN apt-get update && \
     apt-get install -y zip apt-utils re2c g++ zlib1g zlib1g-dbg zlib1g-dev zlibc
@@ -28,7 +28,7 @@ RUN docker-php-ext-install exif
 RUN apt-get install libicu-dev -y
 RUN docker-php-ext-configure intl && docker-php-ext-install intl
 # xdebug
-RUN pecl install xdebug-2.8.1
+RUN pecl install xdebug-3.1.0
 RUN docker-php-ext-enable xdebug
 # clean up
 RUN apt-get autoclean -y \

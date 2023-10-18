@@ -1,5 +1,7 @@
 CREATE SCHEMA `devops` COLLATE utf8mb4_unicode_ci;
 
+USE devops;
+
 DROP TABLE IF EXISTS `siswa`;
 
 CREATE TABLE `siswa` (
