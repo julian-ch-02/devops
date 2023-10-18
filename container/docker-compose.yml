@@ -1,0 +1,51 @@
+version: "3.8"
+
+services:
+  nginx:
+    image: nginx:1.20.1
+    container_name: nginx
+    ports:
+      - "80:80"
+    links:
+      - devops
+    volumes:
+      - ./nginx:/etc/nginx/conf.d:delegated
+      - ../:/var/www/html/devops:delegated
+    networks:
+      devops-network:
+        ipv4_address: 172.11.0.3
+  devops:
+    container_name: devops
+    image: php
+    build:
+      context: .
+      dockerfile: ./php/php.Dockerfile
+    volumes:
+      - ../:/var/www/html/devops:delegated
+    networks:
+      devops-network:
+        ipv4_address: 172.11.0.7
+  mysql:
+    image: mariadb:10.5.10
+    container_name: devops-db
+    restart: "on-failure"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: devops
+    ports:
+      - "3306:3306"
+    volumes:
+      - devops-db:/var/lib/mysql
+    networks:
+      devops-network:
+        ipv4_address: 172.11.0.2
+networks:
+  devops-network:
+    name: devops-network
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.11.0.0/16
+volumes:
+  devops-db:
+    external: true
