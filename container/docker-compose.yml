@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   nginx:
-    image: nginx:1.20.1
+    image: julianzh/nginx-devops:latest
     container_name: nginx-devops
     ports:
       - "80:80"
@@ -16,17 +16,14 @@ services:
         ipv4_address: 172.11.0.3
   devops:
     container_name: devops
-    image: php
-    build:
-      context: .
-      dockerfile: ./php/php.Dockerfile
+    image: julianzh/php-devops:latest
     volumes:
       - ../:/var/www/html/devops:delegated
     networks:
       devops-network:
         ipv4_address: 172.11.0.7
   mysql:
-    image: mariadb:10.5.10
+    image: julianzh/mysql-devops:latest
     container_name: devops-db
     restart: "on-failure"
     environment:
