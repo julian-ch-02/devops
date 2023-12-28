@@ -35,4 +35,6 @@ RUN apt-get autoclean -y \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /tmp/pear/
 
+COPY ./ /var/www/html/devops/
+
 CMD php-fpm

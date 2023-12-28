@@ -2,28 +2,25 @@ version: "3.8"
 
 services:
   nginx:
-    image: julianzh/nginx-devops:latest
+    image: jc002/nginx
     container_name: nginx-devops
     ports:
       - "80:80"
     links:
       - devops
-    volumes:
-      - ./nginx:/etc/nginx/conf.d:delegated
-      - ../:/var/www/html/devops:delegated
     networks:
       devops-network:
         ipv4_address: 172.11.0.3
   devops:
     container_name: devops
-    image: julianzh/php-devops:latest
-    volumes:
-      - ../:/var/www/html/devops:delegated
+    image: jc002/devops
+    ports:
+      - "9000:9000"
     networks:
       devops-network:
         ipv4_address: 172.11.0.7
   mysql:
-    image: julianzh/mysql-devops:latest
+    image: mariadb:10.6.10
     container_name: devops-db
     restart: "on-failure"
     environment:
